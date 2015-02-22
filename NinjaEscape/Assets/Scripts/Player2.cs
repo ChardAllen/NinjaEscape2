@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Testing GitHub updates
+
 public class Player2 : MonoBehaviour
 {
     [HideInInspector]
