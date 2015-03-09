@@ -10,12 +10,19 @@ public class Player2 : MonoBehaviour
     [HideInInspector]
     public bool jump = false;				// Condition for whether the player should jump.
 
-    public float moveForce = 50f;			// Amount of force added to move the player left and right.
+    public float moveForce = 20f;			// Amount of force added to move the player left and right.
     public float maxSpeed = 5f;				// The fastest the player can travel in the x axis..
     public float jumpForce = 500f;			// Amount of force added when the player jumps.
 
     private Transform platformCheck;			// A position marking where to check if the player is platform.
     private bool platform = false;			// Whether or not the player is platform.
+
+    private bool shoot = false;
+    public GameObject weaponPrefab;
+    private int ammo = 3;
+
+    [HideInInspector]
+    public bool isPlayer;
 
 
     void Awake()
@@ -32,6 +39,11 @@ public class Player2 : MonoBehaviour
         // If the jump button is pressed and the player is platform then the player should jump.
         if (Input.GetButtonDown("Jump") && platform)
             jump = true;
+
+        if(Input.GetButtonDown("Fire1"))
+            shoot = true;
+              
+        
     }
 
     void FixedUpdate()
@@ -63,6 +75,36 @@ public class Player2 : MonoBehaviour
 
             jump = false;
         }
+
+        //Shooting
+
+        if (shoot && ammo>0)
+        {
+            GameObject clone;
+
+            if (facingRight)
+            {
+                clone = (Instantiate(weaponPrefab, transform.position, transform.rotation)) as GameObject;
+                clone.rigidbody2D.AddForce(new Vector2(100, 0), 0);
+
+            }
+            else
+            {
+                clone = (Instantiate(weaponPrefab, transform.position, transform.rotation)) as GameObject;
+                clone.rigidbody2D.AddForce(new Vector2(-100, 0), 0);
+            }
+
+
+
+            //clone = (Instantiate(weaponPrefab, transform.position, transform.rotation)) as GameObject;
+            
+
+            //clone.rigidbody2D.AddForce(new Vector2(50, 0),0);
+
+            ammo--;
+            shoot = !shoot;
+        }
+
     }
 
     void Flip()
