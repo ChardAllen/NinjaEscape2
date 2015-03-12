@@ -20,9 +20,13 @@ public class Player2 : MonoBehaviour
     private bool shoot = false;
     public GameObject weaponPrefab;
     private int ammo = 3;
+	private int bandanas = 0;
 
     [HideInInspector]
     public bool isPlayer;
+	
+	[HideInInspector]
+	public bool isCollectible;
 
 
     void Awake()
@@ -94,13 +98,6 @@ public class Player2 : MonoBehaviour
                 clone.rigidbody2D.AddForce(new Vector2(-100, 0), 0);
             }
 
-
-
-            //clone = (Instantiate(weaponPrefab, transform.position, transform.rotation)) as GameObject;
-            
-
-            //clone.rigidbody2D.AddForce(new Vector2(50, 0),0);
-
             ammo--;
             shoot = !shoot;
         }
@@ -116,6 +113,23 @@ public class Player2 : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+	
+	void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+		if(otherCollider.gameObject.tag == "Collectible")
+		{
+        	bandanaSprite bandana = otherCollider.gameObject.GetComponent<bandanaSprite>();
+
+	        bandana.collected = true;
+		
+			bandanas++;
+		}
+		else
+		{
+			weaponThrown weapon = otherCollider.gameObject.GetComponent<weaponThrown>();
+			Physics2D.IgnoreCollision(weapon.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+		}
     }
 
 }
