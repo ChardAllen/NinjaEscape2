@@ -11,15 +11,14 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public float speed = 10f;
     Vector3 start;
+    public bool isGoingLeft;
 
     public void Start ()
     {
         start = gameObject.transform.position;
     }
 
-    bool isGoingLeft = false;
-
-    void Update()
+    void FixedUpdate()
     {
         float distFromStart = transform.position.x - start.x;
 
@@ -52,12 +51,21 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        weaponThrown weapon = otherCollider.gameObject.GetComponent<weaponThrown>();
+        if (otherCollider.gameObject.tag == "Weapons")
+        {
+            weaponThrown weapon = otherCollider.gameObject.GetComponent<weaponThrown>();
 
-        weapon.hitEnemy = true;
+            weapon.hitEnemy = true;
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
 
+        else if (otherCollider.gameObject.tag == "Exit")
+        {
+            
+            Physics2D.IgnoreCollision(otherCollider.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
+       
 
     }
 

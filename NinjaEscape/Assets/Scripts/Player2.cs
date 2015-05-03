@@ -5,7 +5,6 @@ using System.Collections;
 
 public class Player2 : MonoBehaviour
 {
-    [HideInInspector]
     public bool facingRight = true;			// For determining which way the player is currently facing.
     [HideInInspector]
     public bool jump = false;				// Condition for whether the player should jump.
@@ -19,15 +18,17 @@ public class Player2 : MonoBehaviour
 
     private bool shoot = false;
     public GameObject weaponPrefab;
-    private int ammo = 3;
-	private int bandanas = 0;
+    public static int ammo = 3;
+    public static int bandanas = 0;
+
+    public Vector2 location;
 
     [HideInInspector]
     public bool isPlayer;
+    public float volumeSetting;
 	
 	[HideInInspector]
 	public bool isCollectible;
-
 
     void Awake()
     {
@@ -45,8 +46,7 @@ public class Player2 : MonoBehaviour
             jump = true;
 
         if(Input.GetButtonDown("Fire1"))
-            shoot = true;
-              
+            shoot = true;           
         
     }
 
@@ -89,18 +89,21 @@ public class Player2 : MonoBehaviour
             if (facingRight)
             {
                 clone = (Instantiate(weaponPrefab, transform.position, transform.rotation)) as GameObject;
-                clone.rigidbody2D.AddForce(new Vector2(100, 0), 0);
+                clone.rigidbody2D.AddForce(new Vector2(200, 0), 0);
 
             }
             else
             {
                 clone = (Instantiate(weaponPrefab, transform.position, transform.rotation)) as GameObject;
-                clone.rigidbody2D.AddForce(new Vector2(-100, 0), 0);
+                clone.rigidbody2D.AddForce(new Vector2(-200, 0), 0);
             }
 
             ammo--;
             shoot = !shoot;
         }
+
+        location.x = this.transform.position.x;
+        location.y = this.transform.position.y;
 
     }
 
@@ -125,11 +128,26 @@ public class Player2 : MonoBehaviour
 		
 			bandanas++;
 		}
-		else
+
+        else if (otherCollider.gameObject.tag == "Exit")
+        {
+            Application.LoadLevel("LevelComplete");
+            menuScript.level++;
+        }
+
+        else if(otherCollider.gameObject.tag == "Weapons")
 		{
 			weaponThrown weapon = otherCollider.gameObject.GetComponent<weaponThrown>();
 			Physics2D.IgnoreCollision(weapon.GetComponent<Collider2D>(), GetComponent<Collider2D>());
 		}
+    }
+
+    void OnCollisionEnter2D(Collision2D otherCollider)
+    {
+        if(otherCollider.gameObject.tag == "Enemy" )
+        {
+            Application.LoadLevel("Dead");
+        }
     }
 
 }

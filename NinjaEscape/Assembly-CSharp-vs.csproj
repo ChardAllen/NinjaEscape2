@@ -46,9 +46,18 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CameraScript.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\Player2.cs" />
+     <Compile Include="Assets\Scripts\ammoText.cs" />
+     <Compile Include="Assets\Scripts\bandanaScript.cs" />
      <Compile Include="Assets\Scripts\bandanaSprite.cs" />
+     <Compile Include="Assets\Scripts\exitScript.cs" />
+     <Compile Include="Assets\Scripts\menuScript.cs" />
+     <Compile Include="Assets\Scripts\optionsScript.cs" />
+     <Compile Include="Assets\Scripts\pause.cs" />
+     <Compile Include="Assets\Scripts\spashScript.cs" />
+     <Compile Include="Assets\Scripts\volumeSet.cs" />
      <Compile Include="Assets\Scripts\weaponThrown.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.3/UnityEngine.UI.dll</HintPath>
