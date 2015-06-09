@@ -5,7 +5,9 @@ using System.Collections;
 
 public class Player2 : MonoBehaviour
 {
-    public bool facingRight = true;			// For determining which way the player is currently facing.
+    public bool facingRight = true;	 // For determining which way the player is currently facing.
+    public static bool isHidden = false;
+
     [HideInInspector]
     public bool jump = false;				// Condition for whether the player should jump.
 
@@ -29,6 +31,8 @@ public class Player2 : MonoBehaviour
 	
 	[HideInInspector]
 	public bool isCollectible;
+
+   
 
     void Awake()
     {
@@ -140,6 +144,21 @@ public class Player2 : MonoBehaviour
 			weaponThrown weapon = otherCollider.gameObject.GetComponent<weaponThrown>();
 			Physics2D.IgnoreCollision(weapon.GetComponent<Collider2D>(), GetComponent<Collider2D>());
 		}
+
+        else if(otherCollider.gameObject.tag == "Shadow")
+        {
+            isHidden = true;
+            Debug.Log("Shadow In");
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D otherCollider)
+    {
+        if(otherCollider.gameObject.tag == "Shadow")
+        {
+            isHidden = false;
+            Debug.Log("Shadow Out");
+        }
     }
 
     void OnCollisionEnter2D(Collision2D otherCollider)
@@ -148,6 +167,12 @@ public class Player2 : MonoBehaviour
         {
             Application.LoadLevel("Dead");
         }
+       
+        //else if (otherCollider.gameObject.tag == "Shadow")
+        //{
+        //    isHidden = true;
+        //    Debug.Log("Shadow");
+        //}
     }
 
 }

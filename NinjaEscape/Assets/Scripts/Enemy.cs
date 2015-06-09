@@ -12,15 +12,23 @@ public class Enemy : MonoBehaviour
     public float speed = 10f;
     Vector3 start;
     public bool isGoingLeft;
+    public bool canSeePlayer;
+    private RaycastHit2D info;
+
+    private Transform playerCheckLeft;
+    private Transform playerCheckRight;
 
     public void Start ()
     {
         start = gameObject.transform.position;
+        playerCheckLeft = transform.Find("playerCheckLeft");
+        playerCheckRight = transform.Find("playerCheckRight");
     }
 
     void FixedUpdate()
     {
         float distFromStart = transform.position.x - start.x;
+        playerCheck();
 
         if (isGoingLeft)
         {
@@ -40,6 +48,41 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void playerCheck()
+    {
+        if(isGoingLeft)
+        {
+            canSeePlayer = Physics2D.Linecast(transform.position, playerCheckLeft.position, 9 << LayerMask.NameToLayer("Player"));
+
+            if (canSeePlayer && !Player2.isHidden)
+            {
+                //canSeePlayer = true;
+                Debug.Log("Can See You");
+            }
+            else
+            {
+                //canSeePlayer = false;
+                Debug.Log("Can Not See You");
+            }
+        }
+        else
+        {
+            //info = Physics2D.Raycast(transform.position, Vector2.right, 100);
+            canSeePlayer = Physics2D.Linecast(transform.position, playerCheckRight.position, 9 << LayerMask.NameToLayer("Player"));
+
+            if (canSeePlayer && !Player2.isHidden)
+            {
+                //canSeePlayer = true;
+                Debug.Log("Can See You");
+            }
+            else
+            {
+                canSeePlayer = false;
+                Debug.Log("Can Not See You");
+            }
+        }
+    }
+
 
     void Flip()
     {
@@ -47,6 +90,7 @@ public class Enemy : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
     }
 
     void OnTriggerEnter2D(Collider2D otherCollider)
