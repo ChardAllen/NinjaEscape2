@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\menuScript.cs" />
      <Compile Include="Assets\Scripts\optionsScript.cs" />
      <Compile Include="Assets\Scripts\pause.cs" />
+     <Compile Include="Assets\Scripts\resizeToFitScreen.cs" />
      <Compile Include="Assets\Scripts\spashScript.cs" />
      <Compile Include="Assets\Scripts\stealthIconScript.cs" />
      <Compile Include="Assets\Scripts\volumeSet.cs" />
